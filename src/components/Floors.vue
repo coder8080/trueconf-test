@@ -1,10 +1,18 @@
 <template>
   <div class="floors">
     <div class="floors__floor" v-for="floor in floorCount" :key="floor">
+      <div
+        class="floors__line"
+        v-if="floor > 1"
+        :style="{ bottom: `${percentPerFloor * (floor - 1)}%` }"
+      />
       <span class="floors__title">{{ floor }}</span>
       <button
         class="floors__button"
-        :class="{ floors__button_active: waitingFloors.has(floor) }"
+        :class="{
+          floors__button_active: waitingFloors.has(floor),
+          floors__button_working: workingFloors.has(floor),
+        }"
         @click="addToQueue(floor)"
       ></button>
     </div>
@@ -28,7 +36,11 @@ export default {
     }
   },
   computed: {
-    ...mapState({ waitingFloors: (state) => state.elevators.waitingFloors }),
+    ...mapState({
+      waitingFloors: (state) => state.elevators.waitingFloors,
+      workingFloors: (state) => state.elevators.workingFloors,
+    }),
+    percentPerFloor: () => 100 / config.floorsCount,
   },
 }
 </script>
@@ -74,5 +86,19 @@ export default {
 
 .floors__button_active {
   --color: #ee7013;
+}
+
+.floors__button_working {
+  --color: green;
+  border-width: 2px;
+}
+
+.floors__line {
+  height: 2px;
+  width: 100vw;
+  position: absolute;
+  left: 0;
+  background-color: #dfdfdf;
+  z-index: -1;
 }
 </style>

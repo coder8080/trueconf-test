@@ -8,20 +8,26 @@ const state = {
   queue: [],
   queueSet: new Set(),
   waitingFloors: new Set(),
+  workingFloors: new Set(),
 }
+
 export const mutationTypes = {
   addToQueue: '[ELEVATORS] ADD TO QUEUE',
   deactivateFloor: '[ELEVATORS] DEACTIVATE FLOOR',
   elevatorReady: '[ELEVATORS] ELEVATOR READY',
 }
+
 const mutations = {
   [mutationTypes.addToQueue](state, floor) {
     floor -= 1
     if (state.queueSet.has(floor)) return
+
     let freeElevator = null
     let distance = Infinity
+
     for (let elevator of state.elevators) {
       if (elevator.nextFloor === floor) return
+      console.log(elevator.nextFloor)
       if (elevator.state === elevator.nextFloor) {
         if (
           freeElevator === null ||
@@ -29,25 +35,32 @@ const mutations = {
         ) {
           freeElevator = elevator
           distance = Math.abs(elevator.state - floor)
-          break
         }
       }
     }
     state.waitingFloors.add(floor + 1)
+
     if (!freeElevator) {
       state.queue.push(floor)
       state.queueSet.add(floor)
       return
     }
+
     freeElevator.nextFloor = floor
+    state.workingFloors.add(floor + 1)
   },
+
   [mutationTypes.elevatorReady](state, i) {
     state.elevators[i].state = state.elevators[i].nextFloor
     state.queueSet.delete(state.elevators[i].nextFloor)
+    state.workingFloors.delete(state.elevators[i].nextFloor + 1)
     if (state.queue.length > 0) {
-      state.elevators[i].nextFloor = state.queue.shift()
+      const floor = state.queue.shift()
+      state.elevators[i].nextFloor = floor
+      state.workingFloors.add(floor + 1)
     }
   },
+
   [mutationTypes.deactivateFloor](state, floor) {
     state.waitingFloors.delete(floor + 1)
   },
