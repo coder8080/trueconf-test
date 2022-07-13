@@ -1,4 +1,4 @@
 export default {
-  elevatorsCount: 2,
-  floorsCount: 5,
+  elevatorsCount: 3,
+  floorsCount: 6,
 }
