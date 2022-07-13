@@ -50,7 +50,7 @@ export default {
       state: function (state) {
         return state.elevators.elevators[this.number].state
       },
-      percentPerFloor: () => Math.floor(100 / config.floorsCount),
+      percentPerFloor: () => 100 / config.floorsCount,
       imageUrl() {
         let name
         if (this.state === this.nextFloor || this.isRestng) {
