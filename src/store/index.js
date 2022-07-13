@@ -1,14 +1,5 @@
 import { createStore } from 'vuex'
+import elevators from '@/store/modules/elevators'
 
-export default createStore({
-  state: {
-  },
-  getters: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
-  modules: {
-  }
-})
+const store = createStore({ modules: elevators })
+export default store
