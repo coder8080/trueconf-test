@@ -4,10 +4,13 @@
   "private": true,
   "scripts": {
     "start": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "predeploy": "vue-cli-service build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "core-js": "^3.8.3",
+    "gh-pages": "^4.0.0",
     "vue": "^3.2.13",
     "vuex": "^4.0.0"
   },

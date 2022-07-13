@@ -2,6 +2,8 @@
 
 Эмуляция работы лифтовой системы.
 
+Github pages: [https://coder8080.github.io/trueconf-test/](https://coder8080.github.io/trueconf-test/)
+
 ## Реализовано:
 - Базовое задание
 - Табло на лифте (отображает целевой этаж и направление движения)
